@@ -32,7 +32,7 @@ module Notepasser::Controllers
   end
 
   class UserController < R '/users/(\d+)'
-    def get(user_id)
+    def user(user_id)
       user = Notepasser::Models::User.find(user_id)
     end
 
@@ -43,12 +43,23 @@ module Notepasser::Controllers
 
   class NewmessageController < R '/msg/new'
     def create_msg
-    msg = Notpasser::Models::Message.create
+    msg = Notepasser::Models::Message.create
     [:message, :message_id, :user_id, :receive_id].each do |m|
       msg[m] = @input[m]
      end
      msg.save
      {create_msg => msg}.to_json
   end
+
+  class MessageController < R '/msg/(\d+)'
+    def messages(message_id)
+      msg = Notepasser::Models::Message.find(message_id)
+      msg.to_json
+    end
+
+    def delete(message_id)
+      msg = Notepasser::Models::Message.find(message_id)
+      msg.destroy
+    end
 
 end
