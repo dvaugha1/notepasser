@@ -62,4 +62,16 @@ module Notepasser::Controllers
       msg.destroy
     end
 
+    def read(message_id)
+      msg = Notepasser::Models::Message.find(message_id)
+      msg.update_attribute(:msg_status => true)
+      msg.save
+    end
+
+    def unread(message_id)
+      msg = Notepasser::Models::Message.find(message_id)
+      msg.update_attribute(:msg_status => false)
+      msg.save
+    end
+  end
 end
