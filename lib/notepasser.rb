@@ -73,5 +73,12 @@ module Notepasser::Controllers
       msg.update_attribute(:msg_status => false)
       msg.save
     end
+
+    def find
+      page = @input['page'].to_i||1
+      start = (page - 1) * 20
+      finish = (page * 20) - 1
+      Notepasser::Models::Message.where(:id => [start .. finish]).to_json
+    end
   end
 end
